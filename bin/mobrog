@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+
+help =  <<EOS
+RMB(1)
+
+NAME
+
+    mobrog -- Move broken gems.
+
+SYNOPSYS
+
+    mobrog gems_path_dir
+
+DESCRIPTION
+
+    Verify all the gems in a given dir and mve broken gems into .broken_gems/
+EOS
+
+require 'rubygems/package'
+
+gem_dir         = ARGV[0]
+broken_gems_dir = "#{gem_dir}/.broken_gems"
+
+Dir.glob("#{gem_dir}/*.gem") do |gem_path|
+  gem = Gem::Package.new(gem_path)
+  begin
+    print "+"
+    gem.verify
+  rescue Gem::Exception
+    print "-"
+    FileUtils.mkdir( broken_gems_dir ) unless File.directory?( broken_gems_dir )
+    FileUtils.mv gem_path, "#{broken_gems_dir}/#{File.basename(gem_path)}"
+  end
+end
