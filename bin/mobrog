@@ -9,7 +9,7 @@ NAME
 
 SYNOPSYS
 
-    mobrog gems_path_dir
+    mobrog move [gems_path_dir]
 
 DESCRIPTION
 
@@ -18,7 +18,12 @@ EOS
 
 require 'rubygems/package'
 
-gem_dir         = ARGV[0]
+unless ARGV[0] == 'move' and ARGV[1]
+  puts help
+  exit 0
+end
+
+gem_dir         = ARGV[1]
 broken_gems_dir = "#{gem_dir}/.broken_gems"
 
 Dir.glob("#{gem_dir}/*.gem") do |gem_path|
