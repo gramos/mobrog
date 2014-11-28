@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 help =  <<EOS
-RMB(1)
+MOBROG(1)
 
 NAME
 
